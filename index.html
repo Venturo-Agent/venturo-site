@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VENTURO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;500&family=Cormorant+Garamond:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --ink: #1a1a1a;
+    --copper: #C85A38;
+    --muted: rgba(26,26,26,0.5);
+    --rule: rgba(26,26,26,0.12);
+  }
+  html, body { background: #fff; min-height: 100vh; }
+  body {
+    font-family: 'Noto Serif TC', serif;
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  p, h1, h2 { text-wrap: pretty; word-break: keep-all; }
+
+  .frame {
+    flex: 1;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    padding: 40px 56px;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  /* top bar */
+  .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .brand-mark {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: 18px;
+    letter-spacing: 0.18em;
+  }
+  .top-meta {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.12em;
+  }
+
+  /* center */
+  .center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 96px 0;
+  }
+  .center .eyebrow {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--copper);
+    letter-spacing: 0.2em;
+    margin-bottom: 24px;
+    text-transform: uppercase;
+  }
+  .center .eyebrow::before { content: '— '; }
+  .center h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: clamp(80px, 14vw, 200px);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 32px;
+  }
+  .center .tagline-en {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 22px;
+    color: var(--muted);
+    margin-bottom: 8px;
+    letter-spacing: 0.02em;
+    max-width: 30em;
+  }
+  .center .tagline-zh {
+    font-family: 'Noto Serif TC', serif;
+    font-weight: 400;
+    font-size: 24px;
+    color: var(--ink);
+    line-height: 1.6;
+    max-width: 24em;
+  }
+
+  /* proposals list */
+  .work {
+    border-top: 1px solid var(--ink);
+    padding-top: 32px;
+  }
+  .work-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 24px;
+  }
+  .work-head .label {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: var(--copper);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  .work-head .label::before { content: '— '; }
+  .work-head .count {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+  }
+  .work-list {
+    list-style: none;
+  }
+  .work-item a {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 24px;
+    align-items: baseline;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--rule);
+    text-decoration: none;
+    color: inherit;
+    transition: color 0.18s;
+  }
+  .work-item a:hover {
+    color: var(--copper);
+  }
+  .work-item .title {
+    font-family: 'Noto Serif TC', serif;
+    font-weight: 500;
+    font-size: 22px;
+    line-height: 1.5;
+  }
+  .work-item .title small {
+    display: block;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 4px;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+  }
+  .work-item .arrow {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--copper);
+    letter-spacing: 0.08em;
+  }
+  .work-item .arrow::after { content: ' →'; }
+
+  /* footer */
+  .foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-top: 32px;
+    margin-top: 48px;
+    border-top: 1px solid var(--rule);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+  }
+  .foot a {
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.18s;
+  }
+  .foot a:hover { border-bottom-color: var(--copper); }
+</style>
+</head>
+<body>
+
+<div class="frame">
+
+  <header class="top">
+    <div class="brand-mark">VENTURO</div>
+    <div class="top-meta">2026</div>
+  </header>
+
+  <main class="center">
+    <div class="eyebrow">Integrated Marketing</div>
+    <h1>VENTURO</h1>
+    <p class="tagline-en">Integrated marketing for travel &amp; service brands.</p>
+    <p class="tagline-zh">替你的客戶想了一整趟。</p>
+  </main>
+
+  <section class="work">
+    <div class="work-head">
+      <div class="label">Active Work</div>
+      <div class="count">01 in progress</div>
+    </div>
+    <ul class="work-list">
+      <li class="work-item">
+        <a href="/yongcheng-leishan">
+          <div class="title">
+            永成 × 磊山保經・2026 寰宇會獎勵旅遊
+            <small>Yongcheng × Leishan Insurance · Tokyo × Karuizawa, 5D</small>
+          </div>
+          <span class="arrow">View proposal</span>
+        </a>
+      </li>
+    </ul>
+
+    <footer class="foot">
+      <div>VENTURO Integrated Marketing</div>
+      <div>
+        <a href="mailto:agency@venturo.tw">agency@venturo.tw</a>
+      </div>
+    </footer>
+  </section>
+
+</div>
+
+</body>
+</html>
