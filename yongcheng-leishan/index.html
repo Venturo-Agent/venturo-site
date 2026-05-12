@@ -1045,6 +1045,11 @@
     margin-right: 10px;
   }
 
+
+  /* === VIEW vs EDIT mode (預設展示版、?edit=1 才開編輯) === */
+  .toolbar, .disclaimer { display: none !important; }
+  body.editor-on .toolbar { display: flex !important; }
+  body.editor-on .disclaimer { display: block !important; }
 </style>
 </head>
 <body>
@@ -2191,14 +2196,19 @@
     if (el) el.textContent = msg;
   }
 
-  markEditables();
-  loadFromStorage();
-  document.getElementById('btn-edit')?.addEventListener('click', toggleEditMode);
-  document.getElementById('btn-save')?.addEventListener('click', saveToStorage);
-  document.getElementById('btn-export')?.addEventListener('click', exportHtml);
-  document.getElementById('btn-reset')?.addEventListener('click', resetStorage);
+  // 偵測 view / edit 模式
+  const isEditor = new URLSearchParams(location.search).get('edit') === '1'
+                || location.pathname.endsWith('/edit')
+                || location.pathname.endsWith('/edit/');
 
-  if (new URLSearchParams(location.search).get('edit') === '1') {
+  if (isEditor) {
+    document.body.classList.add('editor-on');
+    markEditables();
+    loadFromStorage();
+    document.getElementById('btn-edit')?.addEventListener('click', toggleEditMode);
+    document.getElementById('btn-save')?.addEventListener('click', saveToStorage);
+    document.getElementById('btn-export')?.addEventListener('click', exportHtml);
+    document.getElementById('btn-reset')?.addEventListener('click', resetStorage);
     setTimeout(toggleEditMode, 100);
   }
 
