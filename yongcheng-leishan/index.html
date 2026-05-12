@@ -1102,84 +1102,6 @@
     pointer-events: none; border-radius: 2px;
   }
   body.edit-mode .editable-img:hover::before { opacity: 1; }
-
-  /* === Publish success modal === */
-  #publish-modal {
-    position: fixed; inset: 0; z-index: 99999;
-    display: flex; align-items: center; justify-content: center;
-    font-family: 'Noto Sans TC', sans-serif;
-  }
-  #publish-modal .pm-backdrop {
-    position: absolute; inset: 0;
-    background: rgba(20,15,10,0.55);
-    backdrop-filter: blur(4px);
-  }
-  #publish-modal .pm-box {
-    position: relative;
-    background: #fff;
-    padding: 36px 40px;
-    max-width: 560px; width: calc(100% - 48px);
-    border-top: 4px solid var(--copper);
-    box-shadow: 0 24px 60px rgba(0,0,0,0.18);
-  }
-  #publish-modal .pm-tag {
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic; font-size: 12px;
-    color: var(--copper); letter-spacing: 0.18em;
-    margin-bottom: 12px; text-transform: uppercase;
-  }
-  #publish-modal h3 {
-    font-family: 'Noto Serif TC', serif;
-    font-weight: 500; font-size: 28px; color: var(--ink);
-    margin-bottom: 8px; line-height: 1.4;
-  }
-  #publish-modal .pm-sub {
-    font-family: 'Noto Sans TC', sans-serif;
-    font-size: 13px; color: var(--muted);
-    margin-bottom: 12px;
-  }
-  #publish-modal .pm-url-row { display: flex; gap: 8px; margin-bottom: 24px; }
-  #publish-modal .pm-url-row input {
-    flex: 1; padding: 10px 14px;
-    border: 1px solid var(--rule);
-    background: #fafafa;
-    font-family: 'JetBrains Mono', 'Cormorant Garamond', monospace;
-    font-size: 13px; color: var(--ink);
-  }
-  #publish-modal .pm-url-row input:focus { outline: 2px solid var(--copper); }
-  #publish-modal .pm-url-row button {
-    padding: 10px 18px;
-    background: var(--ink); color: #fff;
-    border: 1px solid var(--ink); cursor: pointer;
-    font-family: 'Noto Sans TC', sans-serif;
-    font-size: 13px; font-weight: 500;
-    letter-spacing: 0.06em;
-    transition: all 0.18s;
-  }
-  #publish-modal .pm-url-row button:hover { background: var(--copper); border-color: var(--copper); }
-  #publish-modal .pm-actions { display: flex; gap: 8px; margin-bottom: 18px; }
-  #publish-modal .pm-actions button {
-    flex: 1; padding: 12px 18px; cursor: pointer;
-    font-family: 'Noto Sans TC', sans-serif;
-    font-size: 14px; font-weight: 500; letter-spacing: 0.04em;
-    transition: all 0.18s;
-  }
-  #publish-modal .pm-btn-primary {
-    background: var(--copper); color: #fff;
-    border: 1px solid var(--copper);
-  }
-  #publish-modal .pm-btn-primary:hover { background: #a64829; border-color: #a64829; }
-  #publish-modal .pm-btn-ghost {
-    background: transparent; color: var(--ink);
-    border: 1px solid var(--rule);
-  }
-  #publish-modal .pm-btn-ghost:hover { background: var(--paper); }
-  #publish-modal .pm-meta {
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic; font-size: 12px;
-    color: var(--muted); letter-spacing: 0.04em;
-    text-align: center;
-  }
 </style>
 </head>
 <body class="">
@@ -1200,7 +1122,7 @@
     <button class="edit-btn" id="btn-reset" style="opacity:0.45;">RESET</button>
     <button class="edit-btn publish busy" id="btn-publish" disabled="">PUBLISH</button>
   </div>
-  <span class="edit-status" id="edit-status">已存 (14 KB) 下午12:10:05</span>
+  <span class="edit-status" id="edit-status">已存 (14 KB) 下午12:26:35</span>
 </div>
 <div class="disclaimer">
   永成旅行社・回標提案 v1。為磊山保險經紀人 2026 寰宇會獎勵旅遊量身設計。圖片為 picsum 隨機示意、待替換為實景或永成商業圖庫。
@@ -1228,12 +1150,12 @@
       <li><a href="#day2" class=""><span class="num">05</span>Day 2｜分流體驗</a></li>
       <li><a href="#day3" class=""><span class="num">06</span>Day 3｜川越・蘋果派</a></li>
       <li><a href="#day4" class=""><span class="num">07</span>Day 4｜自由活動</a></li>
-      <li><a href="#day5" class="active"><span class="num">08</span>Day 5｜送機</a></li>
+      <li><a href="#day5" class=""><span class="num">08</span>Day 5｜送機</a></li>
     </ol>
 
     <div class="sidenav-section">附錄</div>
     <ol>
-      <li><a href="#budget"><span class="num">09</span>預算明細</a></li>
+      <li><a href="#budget" class="active"><span class="num">09</span>預算明細</a></li>
       <li><a href="#ops"><span class="num">10</span>行政配合・風險</a></li>
       <li><a href="#promise"><span class="num">11</span>承諾 + 聯絡</a></li>
     </ol>
@@ -2353,9 +2275,7 @@
       });
       const data = await r.json();
       if (data.ok) {
-        const liveUrl = 'https://www.venturo.tw/yongcheng-leishan';
-        setStatus('✅ 已發布 commit ' + (data.commit_sha || '').slice(0,7) + '・等 30 秒');
-        showPublishedModal(liveUrl, data.commit_sha);
+        setStatus('✅ 已發布 commit ' + (data.commit_sha || '').slice(0,7) + '・客戶 URL 30 秒後是新版');
       } else {
         setStatus('❌ 發布失敗：' + (data.error || 'unknown'));
       }
@@ -2370,47 +2290,6 @@
   function setStatus(msg) {
     const el = document.getElementById('edit-status');
     if (el) el.textContent = msg;
-  }
-
-  function showPublishedModal(url, commitSha) {
-    let m = document.getElementById('publish-modal');
-    if (m) m.remove();
-    m = document.createElement('div');
-    m.id = 'publish-modal';
-    m.innerHTML = `
-      <div class="pm-backdrop"></div>
-      <div class="pm-box">
-        <div class="pm-tag">— PUBLISHED ✅</div>
-        <h3>已發布給客戶</h3>
-        <p class="pm-sub">客戶 URL（複製寄給磊山）</p>
-        <div class="pm-url-row">
-          <input type="text" readonly value="${url}" id="pm-url-input">
-          <button id="pm-copy">複製</button>
-        </div>
-        <div class="pm-actions">
-          <button id="pm-open" class="pm-btn-primary">在新分頁開啟</button>
-          <button id="pm-close" class="pm-btn-ghost">關閉</button>
-        </div>
-        <div class="pm-meta">commit ${commitSha?.slice(0,7) || ''}・約 30 秒後 Coolify redeploy 完成才會看到新版</div>
-      </div>
-    `;
-    document.body.appendChild(m);
-
-    const input = m.querySelector('#pm-url-input');
-    m.querySelector('#pm-copy').onclick = async () => {
-      try {
-        await navigator.clipboard.writeText(url);
-        m.querySelector('#pm-copy').textContent = '已複製 ✓';
-        setTimeout(() => { m.querySelector('#pm-copy').textContent = '複製'; }, 2000);
-      } catch (e) {
-        input.select();
-        document.execCommand('copy');
-        m.querySelector('#pm-copy').textContent = '已複製 ✓';
-      }
-    };
-    m.querySelector('#pm-open').onclick = () => window.open(url, '_blank');
-    m.querySelector('#pm-close').onclick = () => m.remove();
-    m.querySelector('.pm-backdrop').onclick = () => m.remove();
   }
 
   // 偵測 view / edit 模式
