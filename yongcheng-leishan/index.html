@@ -1050,6 +1050,59 @@
   .toolbar, .disclaimer { display: none !important; }
   body.editor-on .toolbar { display: flex !important; }
   body.editor-on .disclaimer { display: block !important; }
+
+  /* === EDIT button styles (補進來) === */
+  .toolbar-edit-buttons { display: flex; gap: 6px; margin-left: 16px; align-items: center; }
+  .edit-btn {
+    background: transparent; color: rgba(255,255,255,0.7);
+    border: 1px solid rgba(255,255,255,0.25);
+    padding: 6px 14px;
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 11px; font-weight: 500; letter-spacing: 0.08em;
+    cursor: pointer; transition: all 0.18s;
+  }
+  .edit-btn:hover { color: #fff; border-color: rgba(255,255,255,0.6); }
+  .edit-btn.active { background: var(--copper); border-color: var(--copper); color: #fff; }
+  .edit-btn.save {
+    background: rgba(40,200,120,0.18);
+    border-color: rgba(40,200,120,0.4);
+    color: #6fd9a0;
+  }
+  .edit-btn.save:hover { background: rgba(40,200,120,0.35); color: #fff; }
+  .edit-btn.publish {
+    background: rgba(200,90,56,0.85);
+    border-color: rgba(200,90,56,0.85);
+    color: #fff; margin-left: 6px;
+    font-weight: 600; letter-spacing: 0.12em;
+  }
+  .edit-btn.publish:hover { background: var(--copper); border-color: var(--copper); }
+  .edit-btn.publish.busy { opacity: 0.5; cursor: wait; }
+  .edit-status {
+    margin-left: 14px;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 11px;
+    color: rgba(255,255,255,0.55);
+  }
+  body.edit-mode [data-editable]:hover {
+    outline: 1px dashed var(--copper); outline-offset: 4px; cursor: text;
+  }
+  body.edit-mode [data-editable]:focus {
+    outline: 2px solid var(--copper); outline-offset: 4px;
+  }
+  body.edit-mode .editable-img { cursor: pointer; position: relative; }
+  body.edit-mode .editable-img::before {
+    content: '◆ 點擊上傳圖 ◆';
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.75); color: #fff;
+    padding: 10px 18px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 12px; letter-spacing: 0.2em;
+    z-index: 10; opacity: 0; transition: opacity 0.2s;
+    pointer-events: none; border-radius: 2px;
+  }
+  body.edit-mode .editable-img:hover::before { opacity: 1; }
 </style>
 </head>
 <body>
@@ -2190,6 +2243,49 @@
     if (!confirm('清除所有編輯、回到原始版本？')) return;
     localStorage.removeItem(STORAGE_KEY);
     location.reload();
+  }
+
+  async function publishNow() {
+    if (!confirm('確定 PUBLISH？\n\n會把目前內容上線、客戶 URL 30 秒後變新版。')) return;
+    const btn = document.getElementById('btn-publish');
+    btn.classList.add('busy');
+    btn.disabled = true;
+    setStatus('準備發布...');
+    saveToStorage();
+
+    const clone = document.documentElement.cloneNode(true);
+    clone.querySelectorAll('[data-editable]').forEach(el => {
+      el.removeAttribute('data-editable');
+      el.removeAttribute('data-edit-id');
+      el.removeAttribute('contenteditable');
+    });
+    clone.querySelectorAll('[data-img-id]').forEach(el => {
+      el.removeAttribute('data-img-id');
+      el.classList.remove('editable-img');
+    });
+    clone.querySelector('body')?.classList.remove('editor-on');
+    clone.querySelector('body')?.classList.remove('edit-mode');
+    const html = '<!DOCTYPE html>\n' + clone.outerHTML;
+
+    try {
+      setStatus('上傳中... (' + (html.length/1024).toFixed(0) + ' KB)');
+      const r = await fetch('https://publisher.venturo.tw/publish', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ path: 'yongcheng-leishan/index.html', html }),
+      });
+      const data = await r.json();
+      if (data.ok) {
+        setStatus('✅ 已發布 commit ' + (data.commit_sha || '').slice(0,7) + '・客戶 URL 30 秒後是新版');
+      } else {
+        setStatus('❌ 發布失敗：' + (data.error || 'unknown'));
+      }
+    } catch (e) {
+      setStatus('❌ 連線失敗：' + e.message);
+    } finally {
+      btn.classList.remove('busy');
+      btn.disabled = false;
+    }
   }
 
   function setStatus(msg) {
