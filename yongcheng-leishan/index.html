@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
-<head>
+<html lang="zh-Hant"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>永成 × 磊山｜2026 寰宇會獎勵旅遊・回標提案 — 框架版</title>
@@ -18,8 +17,8 @@
 -->
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;500;600;700&amp;family=Noto+Sans+TC:wght@300;400;500;700&amp;family=Cormorant+Garamond:wght@400;500;600&amp;display=swap" rel="stylesheet">
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
@@ -1105,7 +1104,7 @@
   body.edit-mode .editable-img:hover::before { opacity: 1; }
 </style>
 </head>
-<body>
+<body class="">
 
 <!-- =============== TOOLBAR =============== -->
 <div class="toolbar">
@@ -1117,13 +1116,13 @@
     <button class="mode-btn active">PROPOSAL</button>
   </div>
   <div class="toolbar-edit-buttons">
-    <button class="edit-btn" id="btn-edit">EDIT</button>
+    <button class="edit-btn active" id="btn-edit">EDIT</button>
     <button class="edit-btn save" id="btn-save">SAVE</button>
     <button class="edit-btn" id="btn-export">EXPORT</button>
     <button class="edit-btn" id="btn-reset" style="opacity:0.45;">RESET</button>
-    <button class="edit-btn publish" id="btn-publish">PUBLISH</button>
+    <button class="edit-btn publish busy" id="btn-publish" disabled="">PUBLISH</button>
   </div>
-  <span class="edit-status" id="edit-status">就緒</span>
+  <span class="edit-status" id="edit-status">已存 (14 KB) 下午12:10:05</span>
 </div>
 <div class="disclaimer">
   永成旅行社・回標提案 v1。為磊山保險經紀人 2026 寰宇會獎勵旅遊量身設計。圖片為 picsum 隨機示意、待替換為實景或永成商業圖庫。
@@ -1139,19 +1138,19 @@
 
     <div class="sidenav-section">序</div>
     <ol>
-      <li><a href="#cover" class="active"><span class="num">00</span>封面</a></li>
-      <li><a href="#why"><span class="num">01</span>為什麼是永成</a></li>
-      <li><a href="#overview"><span class="num">02</span>五天總覽</a></li>
+      <li><a href="#cover" class=""><span class="num">00</span>封面</a></li>
+      <li><a href="#why" class=""><span class="num">01</span>為什麼是永成</a></li>
+      <li><a href="#overview" class=""><span class="num">02</span>五天總覽</a></li>
     </ol>
 
     <div class="sidenav-section">行程</div>
     <ol>
-      <li><a href="#day1"><span class="num">03</span>Day 1｜抵達・輕井澤</a></li>
-      <li><a href="#dinner"><span class="num">04</span>晚宴特別篇</a></li>
-      <li><a href="#day2"><span class="num">05</span>Day 2｜分流體驗</a></li>
-      <li><a href="#day3"><span class="num">06</span>Day 3｜川越・蘋果派</a></li>
-      <li><a href="#day4"><span class="num">07</span>Day 4｜自由活動</a></li>
-      <li><a href="#day5"><span class="num">08</span>Day 5｜送機</a></li>
+      <li><a href="#day1" class=""><span class="num">03</span>Day 1｜抵達・輕井澤</a></li>
+      <li><a href="#dinner" class=""><span class="num">04</span>晚宴特別篇</a></li>
+      <li><a href="#day2" class=""><span class="num">05</span>Day 2｜分流體驗</a></li>
+      <li><a href="#day3" class=""><span class="num">06</span>Day 3｜川越・蘋果派</a></li>
+      <li><a href="#day4" class=""><span class="num">07</span>Day 4｜自由活動</a></li>
+      <li><a href="#day5" class="active"><span class="num">08</span>Day 5｜送機</a></li>
     </ol>
 
     <div class="sidenav-section">附錄</div>
@@ -2318,5 +2317,6 @@
   });
 </script>
 
-</body>
-</html>
+
+
+</body></html>
