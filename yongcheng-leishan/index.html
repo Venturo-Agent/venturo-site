@@ -1120,7 +1120,7 @@
     <button class="edit-btn save" id="btn-save">SAVE</button>
     <button class="edit-btn" id="btn-export">EXPORT</button>
     <button class="edit-btn" id="btn-reset" style="opacity:0.45;">RESET</button>
-    <button class="edit-btn publish busy" id="btn-publish" disabled="">PUBLISH</button>
+    <button class="edit-btn publish" id="btn-publish">PUBLISH</button>
   </div>
   <span class="edit-status" id="edit-status">已存 (14 KB) 下午12:26:35</span>
 </div>
@@ -2264,6 +2264,15 @@
     });
     clone.querySelector('body')?.classList.remove('editor-on');
     clone.querySelector('body')?.classList.remove('edit-mode');
+    // 清除 transient state（避免 button busy / disabled 凍結進 HTML）
+    clone.querySelectorAll('.edit-btn').forEach(b => {
+      b.classList.remove('busy', 'active');
+      b.removeAttribute('disabled');
+    });
+    const cloneStatus = clone.querySelector('#edit-status');
+    if (cloneStatus) cloneStatus.textContent = '就緒';
+    // 移除 success modal 殘留
+    clone.querySelector('#publish-modal')?.remove();
     const html = '<!DOCTYPE html>\n' + clone.outerHTML;
 
     try {
@@ -2299,6 +2308,11 @@
 
   if (isEditor) {
     document.body.classList.add('editor-on');
+    // 防呆：清除上次 PUBLISH 凍結進 HTML 的 transient state
+    document.querySelectorAll('.edit-btn').forEach(b => {
+      b.classList.remove('busy', 'active');
+      b.removeAttribute('disabled');
+    });
     markEditables();
     loadFromStorage();
     document.getElementById('btn-edit')?.addEventListener('click', toggleEditMode);
